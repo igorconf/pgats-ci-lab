@@ -1,0 +1,46 @@
+# CI de Nivel 02 - Disparo agendado a partir de 1 clique
+
+name: 'Execução Manual'
+
+# regras de disparo gatilhos/triggers
+# gatilho de disparo manual = workflow_dispatch
+# inputs = entradas que o usuário pode fornecer ao disparar o workflow manualmente
+
+on:
+  schedule:
+    # a - minuto, b - hora - c - dia do mês, d - mês, e - dia da semana
+    # exemplo: a b c d e
+    # 0 6 * * 1 = todos os dias às 6:00
+    - cron: '0 6 * * 1'
+
+# jobs - tarefas que serão executadas
+jobs:
+  e2e-tests:
+    #máquina virtual onde o job será executado
+    runs-on: ubuntu-latest
+
+    #passos do script de build
+    steps:
+        #clone do projeto
+        - uses: actions/checkout@v4
+
+        #instalação do Node.js
+        - uses: actions/setup-node@v4
+          with:
+            node-version: latest
+
+        #instalacao do yarn
+        - name: Install Yarn
+          run: npm install -g yarn
+
+        #instalação das dependências
+        - name: Install Dependencies
+          run: yarn
+        
+        #instalacao do playwright
+        - name: Install Playwright Browsers
+          run: yarn playwright install
+        
+        #execucao dos testes e2e
+        - name: Run E2E Tests
+          run: yarn run e2e
