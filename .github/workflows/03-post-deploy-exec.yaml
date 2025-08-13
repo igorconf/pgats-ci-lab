@@ -8,7 +8,7 @@ name: 'Execução por Deploy'
 
 on:
   workflow_run:
-    workflows: ["Execução Manual"]
+    workflows: ['Execução Manual']
     types:
       - completed
 
@@ -24,33 +24,33 @@ jobs:
 
     #passos do script de build
     steps:
-        #clone do projeto
-        - uses: actions/checkout@v4
+      #clone do projeto
+      - uses: actions/checkout@v4
 
-        #instalação do Node.js
-        - uses: actions/setup-node@v4
-          with:
-            node-version: latest
+      #instalação do Node.js
+      - uses: actions/setup-node@v4
+        with:
+          node-version: latest
 
-        #instalacao do yarn
-        - name: Install Yarn
-          run: npm install -g yarn
+      #instalacao do yarn
+      - name: Install Yarn
+        run: npm install -g yarn
 
-        #instalação das dependências
-        - name: Install Dependencies
-          run: yarn
-        
-        #instalacao do playwright
-        - name: Install Playwright Browsers
-          run: yarn playwright install
-        
-        #execucao dos testes e2e
-        - name: Run E2E Tests
-          run: yarn run e2e
+      #instalação das dependências
+      - name: Install Dependencies
+        run: yarn
 
-        #upload artifacts
-        - uses: actions/upload-artifact@v4
-          if: ${{ !cancelled() }}
-          with:
-            name: report
-            path: ./playwright-report
+      #instalacao do playwright
+      - name: Install Playwright Browsers
+        run: yarn playwright install
+
+      #execucao dos testes e2e
+      - name: Run E2E Tests
+        run: yarn run e2e
+
+      #upload artifacts
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: report
+          path: ./playwright-report
