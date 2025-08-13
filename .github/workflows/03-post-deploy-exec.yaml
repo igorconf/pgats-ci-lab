@@ -18,6 +18,10 @@ jobs:
     #máquina virtual onde o job será executado
     runs-on: ubuntu-latest
 
+    #condicional - if
+    #`${ expressao }`
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
     #passos do script de build
     steps:
         #clone do projeto
